@@ -103,21 +103,12 @@
                         onkeyup="searchTable()"
                     />
                 </div>
-                <div class="flex gap-3">
-                    <a href="scan-dokumen.html" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition duration-200 shadow-md">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                        <span class="font-semibold">Scan Dokumen</span>
-                    </a>
-                    <a href="tambah-surat.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition duration-200 shadow-md">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                        </svg>
-                        <span class="font-semibold">Tambah Surat Masuk</span>
-                    </a>
-                </div>
+                <a href="tambah-surat.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition duration-200 shadow-md">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <span class="font-semibold">Tambah Surat Masuk</span>
+                </a>
             </div>
         </div>
 
@@ -213,7 +204,7 @@
             tbody.innerHTML = '';
 
             if (dataSurat.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="14" class="text-center py-8 text-gray-500">Belum ada data surat masuk</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="14" class="text-center py-8 text-gray-500">Belum ada data surat masuk. Klik "Tambah Surat Masuk" untuk mulai menginput data.</td></tr>';
                 return;
             }
 
@@ -222,12 +213,12 @@
                 row.className = 'hover:bg-blue-50 transition duration-150';
                 
                 const dokumen = surat.dokumen ? 
-                    `<button onclick="lihatDokumen('${surat.dokumen}', '${surat.nomor}')" class="text-blue-600 hover:text-blue-800 flex items-center justify-center mx-auto">
+                    `<button onclick="lihatDokumen(${index})" class="text-blue-600 hover:text-blue-800 flex items-center justify-center mx-auto">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                         </svg>
-                    </button>` : '-';
+                    </button>` : '<span class="text-gray-400">-</span>';
 
                 row.innerHTML = `
                     <td class="px-4 py-3 text-sm font-medium text-blue-600">${surat.nomor}</td>
@@ -281,22 +272,29 @@
         }
 
         // Lihat dokumen
-        function lihatDokumen(dokumenData, nomorSurat) {
+        function lihatDokumen(index) {
+            const surat = dataSurat[index];
             const newWindow = window.open('', '_blank');
             newWindow.document.write(`
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>Dokumen - ${nomorSurat}</title>
+                    <title>Dokumen - ${surat.nomor}</title>
                     <style>
-                        body { margin: 0; padding: 20px; background: #f0f0f0; text-align: center; }
-                        img { max-width: 100%; height: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+                        body { margin: 0; padding: 20px; background: #f0f0f0; text-align: center; font-family: Arial; }
+                        img { max-width: 100%; height: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; }
                         h2 { color: #1e40af; }
+                        .info { background: white; padding: 15px; border-radius: 8px; margin: 20px auto; max-width: 600px; }
                     </style>
                 </head>
                 <body>
-                    <h2>Dokumen Surat Nomor: ${nomorSurat}</h2>
-                    <img src="${dokumenData}" alt="Dokumen">
+                    <h2>📄 Dokumen Surat</h2>
+                    <div class="info">
+                        <p><strong>Nomor:</strong> ${surat.nomor}</p>
+                        <p><strong>Pengirim:</strong> ${surat.siPengirim}</p>
+                        <p><strong>Tanggal Diterima:</strong> ${formatDate(surat.diterimaTgl)}</p>
+                    </div>
+                    <img src="${surat.dokumen}" alt="Dokumen">
                 </body>
                 </html>
             `);
@@ -310,7 +308,7 @@
                 localStorage.setItem('dataSuratMasuk', JSON.stringify(dataSurat));
                 renderTable();
                 updateStats();
-                alert('Surat berhasil dihapus!');
+                alert('✅ Surat berhasil dihapus!');
             }
         }
     </script>
