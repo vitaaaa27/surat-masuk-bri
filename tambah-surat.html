@@ -9,6 +9,14 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        .drop-zone {
+            border: 3px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+        .drop-zone.dragover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen">
@@ -37,226 +45,275 @@
 
     <!-- Main Content -->
     <main class="container mx-auto px-6 py-8">
-        <div class="bg-white rounded-lg shadow-lg p-8 max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
-                <svg class="w-8 h-8 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                </svg>
-                Form Input Surat Masuk
-            </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Input Surat -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-8 h-8 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Form Input Surat Masuk
+                </h2>
 
-            <form id="formTambahSurat">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Nomor Surat -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Nomor Surat <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="nomor" 
-                            required 
-                            placeholder="Contoh: 001/SM/XII/2024"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Bandel -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Bandel <span class="text-red-500">*</span>
-                        </label>
-                        <select 
-                            id="bandel" 
-                            required 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                            <option value="">Pilih Bandel</option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
-                    </div>
-
-                    <!-- Diterima Tanggal -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Diterima Tanggal <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="date" 
-                            id="diterimaTgl" 
-                            required 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Dikirim Dari -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Dikirim Dari <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="dikirim" 
-                            required 
-                            placeholder="Contoh: Kantor Pusat BRI"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Si Pengirim -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Si Pengirim <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="siPengirim" 
-                            required 
-                            placeholder="Contoh: Direktorat Operasional"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Nomor Surat Pengirim -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Nomor Surat Pengirim
-                        </label>
-                        <input 
-                            type="text" 
-                            id="nomorSuratPengirim" 
-                            placeholder="Contoh: 125/KP/XI/2024"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Tanggal Surat Pengirim -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Tanggal Surat Pengirim
-                        </label>
-                        <input 
-                            type="date" 
-                            id="tanggalSuratPengirim" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Ditujukan Kepada -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Ditujukan Kepada <span class="text-red-500">*</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="ditujukanKepada" 
-                            required 
-                            placeholder="Contoh: Kepala KCP Jelutung"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Maksud Surat -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Maksud Surat <span class="text-red-500">*</span>
-                        </label>
-                        <textarea 
-                            id="maksudSurat" 
-                            rows="4" 
-                            required 
-                            placeholder="Jelaskan maksud atau isi dari surat..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        ></textarea>
-                    </div>
-
-                    <!-- Jawaban Dari Agenda No -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Jawaban Dari Agenda No
-                        </label>
-                        <input 
-                            type="text" 
-                            id="jawabanDari" 
-                            placeholder="Contoh: 010/SM/XII/2024"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Jawaban Dengan Agenda No -->
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Jawaban Dengan Agenda No
-                        </label>
-                        <input 
-                            type="text" 
-                            id="jawabanDengan" 
-                            placeholder="Contoh: 015/SM/XII/2024"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        >
-                    </div>
-
-                    <!-- Catatan Lebih Lanjut -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Catatan Lebih Lanjut
-                        </label>
-                        <textarea 
-                            id="catatan" 
-                            rows="3" 
-                            placeholder="Catatan atau keterangan tambahan..."
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        ></textarea>
-                    </div>
-
-                    <!-- Upload Dokumen -->
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            Upload Dokumen (Opsional)
-                        </label>
-                        <div class="flex items-center justify-center w-full">
-                            <label class="flex flex-col w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-                                <div class="flex flex-col items-center justify-center pt-7">
-                                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                                    </svg>
-                                    <p class="pt-1 text-sm text-gray-500">Klik untuk upload atau drag & drop</p>
-                                    <p class="text-xs text-gray-400">JPG, PNG, atau PDF (Maks 5MB)</p>
-                                </div>
-                                <input 
-                                    type="file" 
-                                    id="dokumenFile" 
-                                    accept="image/*,.pdf" 
-                                    class="hidden"
-                                    onchange="previewFile()"
-                                >
+                <form id="formTambahSurat">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Nomor Surat -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Nomor Surat <span class="text-red-500">*</span>
                             </label>
+                            <input 
+                                type="text" 
+                                id="nomor" 
+                                required 
+                                placeholder="Contoh: 001/SM/XII/2024"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
                         </div>
-                        <div id="filePreview" class="mt-3 hidden">
-                            <p class="text-sm text-gray-600">File terpilih: <span id="fileName" class="font-semibold"></span></p>
+
+                        <!-- Bandel -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Bandel <span class="text-red-500">*</span>
+                            </label>
+                            <select 
+                                id="bandel" 
+                                required 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <option value="">Pilih Bandel</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                            </select>
                         </div>
+
+                        <!-- Diterima Tanggal -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Diterima Tanggal <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="date" 
+                                id="diterimaTgl" 
+                                required 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Dikirim Dari -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Dikirim Dari <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="dikirim" 
+                                required 
+                                placeholder="Contoh: Kantor Pusat BRI"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Si Pengirim -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Si Pengirim <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="siPengirim" 
+                                required 
+                                placeholder="Contoh: Direktorat Operasional"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Nomor Surat Pengirim -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Nomor Surat Pengirim
+                            </label>
+                            <input 
+                                type="text" 
+                                id="nomorSuratPengirim" 
+                                placeholder="Contoh: 125/KP/XI/2024"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Tanggal Surat Pengirim -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Tanggal Surat Pengirim
+                            </label>
+                            <input 
+                                type="date" 
+                                id="tanggalSuratPengirim" 
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Ditujukan Kepada -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Ditujukan Kepada <span class="text-red-500">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="ditujukanKepada" 
+                                required 
+                                placeholder="Contoh: Kepala KCP Jelutung"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Maksud Surat -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Maksud Surat <span class="text-red-500">*</span>
+                            </label>
+                            <textarea 
+                                id="maksudSurat" 
+                                rows="4" 
+                                required 
+                                placeholder="Jelaskan maksud atau isi dari surat..."
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            ></textarea>
+                        </div>
+
+                        <!-- Jawaban Dari Agenda No -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Jawaban Dari Agenda No
+                            </label>
+                            <input 
+                                type="text" 
+                                id="jawabanDari" 
+                                placeholder="Contoh: 010/SM/XII/2024"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Jawaban Dengan Agenda No -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Jawaban Dengan Agenda No
+                            </label>
+                            <input 
+                                type="text" 
+                                id="jawabanDengan" 
+                                placeholder="Contoh: 015/SM/XII/2024"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                        </div>
+
+                        <!-- Catatan Lebih Lanjut -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                Catatan Lebih Lanjut
+                            </label>
+                            <textarea 
+                                id="catatan" 
+                                rows="3" 
+                                placeholder="Catatan atau keterangan tambahan..."
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Tombol Action -->
+                    <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
+                        <a href="index.html" class="px-8 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 font-semibold text-gray-700 transition duration-200">
+                            Batal
+                        </a>
+                        <button 
+                            type="submit" 
+                            class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition duration-200 shadow-md flex items-center space-x-2"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span>Simpan Surat Masuk</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Panel Upload/Scan Dokumen -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Upload Area -->
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-6 h-6 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                        Scan/Upload Dokumen
+                    </h3>
+
+                    <!-- Drop Zone -->
+                    <div 
+                        id="dropZone" 
+                        class="drop-zone border-4 rounded-lg p-6 text-center cursor-pointer"
+                        ondrop="handleDrop(event)" 
+                        ondragover="handleDragOver(event)" 
+                        ondragleave="handleDragLeave(event)"
+                        onclick="document.getElementById('dokumenInput').click()"
+                    >
+                        <input 
+                            type="file" 
+                            id="dokumenInput" 
+                            accept="image/*" 
+                            capture="environment" 
+                            class="hidden"
+                            onchange="handleFileSelect(event)"
+                        >
+                        <svg class="w-16 h-16 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                        </svg>
+                        <p class="text-sm font-semibold text-gray-700 mb-1">📷 Klik untuk Scan/Upload</p>
+                        <p class="text-xs text-gray-500">atau drag & drop file di sini</p>
+                        <p class="text-xs text-gray-400 mt-2">JPG, PNG (Maks 5MB)</p>
+                    </div>
+
+                    <!-- Preview Area -->
+                    <div id="previewArea" class="mt-4 hidden">
+                        <p class="text-sm font-semibold text-gray-700 mb-2">Preview Dokumen:</p>
+                        <div class="border border-gray-300 rounded-lg overflow-hidden mb-3">
+                            <img id="previewImage" class="w-full h-auto">
+                        </div>
+                        <button 
+                            onclick="removeImage()" 
+                            class="w-full px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition duration-200 flex items-center justify-center space-x-2"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                            <span class="font-semibold">Hapus Dokumen</span>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Tombol Action -->
-                <div class="flex justify-end space-x-4 mt-8 pt-6 border-t border-gray-200">
-                    <a href="index.html" class="px-8 py-3 border-2 border-gray-300 rounded-lg hover:bg-gray-50 font-semibold text-gray-700 transition duration-200">
-                        Batal
-                    </a>
-                    <button 
-                        type="submit" 
-                        class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition duration-200 shadow-md flex items-center space-x-2"
-                    >
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                <!-- Info Panel -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-blue-600 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <span>Simpan Surat Masuk</span>
-                    </button>
+                        <div class="text-sm text-blue-800">
+                            <p class="font-semibold mb-1">💡 Tips:</p>
+                            <ul class="space-y-1 text-xs">
+                                <li>• Di HP: Langsung buka kamera</li>
+                                <li>• Di komputer: Pilih file atau drag & drop</li>
+                                <li>• Pastikan dokumen jelas dan terbaca</li>
+                                <li>• Upload dokumen bersifat opsional</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </main>
 
@@ -268,49 +325,82 @@
     </footer>
 
     <script>
+        let dokumenData = null;
+
         // Set tanggal hari ini sebagai default
         document.getElementById('diterimaTgl').valueAsDate = new Date();
 
-        // Preview file yang diupload
-        function previewFile() {
-            const fileInput = document.getElementById('dokumenFile');
-            const filePreview = document.getElementById('filePreview');
-            const fileName = document.getElementById('fileName');
-
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                fileName.textContent = file.name;
-                filePreview.classList.remove('hidden');
+        // Handle file select
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
             }
+        }
+
+        // Handle drag over
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('dropZone').classList.add('dragover');
+        }
+
+        // Handle drag leave
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('dropZone').classList.remove('dragover');
+        }
+
+        // Handle drop
+        function handleDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('dropZone').classList.remove('dragover');
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                processFile(files[0]);
+            }
+        }
+
+        // Process file
+        function processFile(file) {
+            // Cek tipe file
+            if (!file.type.startsWith('image/')) {
+                alert('⚠️ File harus berupa gambar (JPG, PNG)!');
+                return;
+            }
+
+            // Cek ukuran file (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('⚠️ Ukuran file terlalu besar! Maksimal 5MB');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                dokumenData = e.target.result;
+                document.getElementById('previewImage').src = dokumenData;
+                document.getElementById('previewArea').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove image
+        function removeImage() {
+            dokumenData = null;
+            document.getElementById('dokumenInput').value = '';
+            document.getElementById('previewArea').classList.add('hidden');
         }
 
         // Submit form
         document.getElementById('formTambahSurat').onsubmit = function(e) {
             e.preventDefault();
-
-            // Ambil file dokumen jika ada
-            const fileInput = document.getElementById('dokumenFile');
-            
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                
-                // Cek ukuran file (max 5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    alert('Ukuran file terlalu besar! Maksimal 5MB');
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    simpanSurat(event.target.result);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                simpanSurat(null);
-            }
+            simpanSurat();
         };
 
-        function simpanSurat(dokumenData) {
+        function simpanSurat() {
             // Ambil data dari form
             const surat = {
                 nomor: document.getElementById('nomor').value,
